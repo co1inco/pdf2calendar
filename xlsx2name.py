@@ -1,11 +1,6 @@
 import xlrd
 import re
 
-month = ['Jan', 'Feb', 'Mär',
-         'Apr', 'Mai', 'Jun',
-         'Jul', 'Aug', 'Sep',
-         'Okt', 'Nov', 'Dez']
-
 dateCol = 1
 timeRow = 0
 

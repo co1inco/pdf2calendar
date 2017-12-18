@@ -1,0 +1,13 @@
+
+.vs/pdf2calendar/v15/.suo
+pdf2calendar.sln
+Stundenplan_WS 2017-18_ELM 1 ilovepdf.xlsx
+*.pdf
+*.xls
+*.xlsx
+wip-files/pdf2txt.py
+wip-files/pdf2xlsx.py
+wip-files/xls2csv.py
+wip-files/xls2name-PDFTable.py
+wip-files/your_csv_file.csv
+classes.txt

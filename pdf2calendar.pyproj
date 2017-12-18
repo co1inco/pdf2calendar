@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{f39c694c-c2af-4587-8814-661441bdc50c}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>xlsx2name.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="classes.txt" />
+    <Content Include="howto.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="wip-files\pdf2txt.py" />
+    <Compile Include="wip-files\pdf2xlsx.py" />
+    <Compile Include="wip-files\xls2csv.py" />
+    <Compile Include="wip-files\xls2name-PDFTable.py" />
+    <Compile Include="xlsx2gCalendar.py" />
+    <Compile Include="xlsx2name.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wip-files" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+</Project>

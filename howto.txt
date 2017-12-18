@@ -1,0 +1,26 @@
+https://convertio.co/de/ocr/ 
+https://online2pdf.com/de/pdf-zu-excel-konvertieren
+
+https://www.ilovepdf.com/pdf_to_excel <-
+
+.pdf to .xlsx
+
+pdf 2 xlsx
+	pip install git+https://github.com/pdftables/python-pdftables-api.git
+
+	api kxog44avqtrw
+
+	import pdftables_api
+	c = pdftables_api.Client('my-api-key')
+	c.xlsx('input.pdf', 'output.xlsx')
+
+xls 2 csv
+	xlsx2csv (change sheet1 to page 1!)
+	
+csv to entys
+
+	if 
+	
+	timeStart timeEnd date name prof room
+
+https://github.com/priyadarshy/google-calendar-v3

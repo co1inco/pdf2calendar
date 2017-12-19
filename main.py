@@ -71,7 +71,8 @@ def useInput(app, inputText):
     input = inputText.get()
     app.destroy()
 
-    input = "classes.txt" #overwrite input file
+    if len(input) == 0:
+        input = "classes.txt" #overwrite input file 
 
     if os.path.isfile(input):
 
@@ -84,13 +85,12 @@ def useInput(app, inputText):
             print("txt")
             classes = xlsx2name.getFileContent(input)
 
-#        print(classes)
-
         if loadgAPI:
             preGoogleEntrys(classes)
 
     else:
         messagebox.showerror("Warning", "unaple to locate file")
+        os._exit(-3)
 
 
 def preGoogleEntrys(classes):
@@ -104,7 +104,6 @@ def preGoogleEntrys(classes):
 
     calendarList = calendar.getCalendarList()
 
-#    chkButton = Checkbar(app, x).pack()
     selected = IntVar()
     for i, j in enumerate(calendarList):
         print(j['summary'])
@@ -141,7 +140,7 @@ def createGoogleEntrys(app,calendar, calendarId, classes):
     except:
         messagebox.showerror("Warning", "Error while creating Calendar Entrys")
         loading.__del__()
-        os._exit(-2)
+        os._exit(-3)
 
     loading.__del__()
     messagebox.showinfo("Ready!", "Ready!\n  :-) ")

@@ -87,11 +87,7 @@ def getAllPages(book):
 if __name__ == '__main__':
     
     book = xlrd.open_workbook("Stundenplan_WS 2017-18_ELM 1 ilovepdf og.xlsx")
-    sh = book.sheet_by_index(2)
 
-#    x, y = getTime(sh)
-
-#    z = getDay(sh, 1, x, y)
     f = open('classes.txt', 'w', encoding="utf-8")
 
     classes = getAllPages(book)

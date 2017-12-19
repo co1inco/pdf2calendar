@@ -70,7 +70,7 @@ class gCalendar():
         event = {
             "start": { "dateTime": startTime},
             "end" : { "dateTime": endTime},
-            "summary" : name,
+            "summary" : eventName,
             "location" : location
             }
     

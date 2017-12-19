@@ -33,27 +33,38 @@ def useInput(app, inputText):
     input = inputText.get()
     app.destroy()
 
+    input = "classes.txt" #overwrite input file
+
     if os.path.isfile(input):
 
-        if input.endswith(".xlsx") or endswith(".xls"):
+        if input.endswith(".xlsx") or input.endswith(".xls"):
              print("xlsx")
              t = xlsx2name.readXlsx(input)
              classes = t.getAllPages()
              xlsx2name.writeToFile("classes.txt", classes)
         else:
             print("txt")
-            classes = getFileContent(input)
+            classes = xlsx2name.getFileContent(input)
 
-        print(classes)
+#        print(classes)
 
         if loadgAPI:
-            createGoogleEntrys()
+            createGoogleEntrys(classes)
 
     else:
         messagebox.showerror("Warning", "unaple to locate file")
 
-def createGoogleEntrys():
-    pass
+
+def createGoogleEntrys(classes):
+    calendar = gCalendar.gCalendar()
+
+    calendarId = 'i7qulknrv641gpshdv5p4344r8@group.calendar.google.com'
+
+    for i in classes:
+        startTime = i[0] + "T" + i[1][0:2] + ":" + i[1][3:5]
+        endTime   = i[0] + "T" + i[1][6:8] + ":" + i[1][9:11]
+
+        print(startTime + " " + endTime)
 
 
 

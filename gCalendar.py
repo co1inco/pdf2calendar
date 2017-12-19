@@ -1,9 +1,4 @@
-"""
-month = ['Jan', 'Feb', 'Mar',
-         'Apr', 'Mai', 'Jun',
-         'Jul', 'Aug', 'Sep',
-         'Okt', 'Nov', 'Dez']
-"""
+
 
 from __future__ import print_function
 import httplib2

@@ -1,26 +1,64 @@
 from tkinter import *
 from tkinter import messagebox
+from tkinter import ttk
 
 import os
 
 global input
 
-class Checkbar(Frame): #https://www.python-kurs.eu/tkinter_checkboxes.php
-    def __init__(self, parent=None, picks=[], anchor=W):
-        Frame.__init__(self, parent)
-        self.vars = []
-        count = 0
-        for pick in picks:
-            var = IntVar()
-            chk = Checkbutton(self, text=pick, variable=var, bg = bgMain)
-            chk.grid(row=count, sticky=W)
- 
-#           chk.pack( anchor=anchor, expand=YES, fill=X)
-            self.vars.append(var)
-            count = count + 1
-    def state(self):
-        return map((lambda var: var.get()), self.vars)
+# exitcode -5 => exit and interupting creation of entrys by closing the progress window
 
+class LoadingScreen():
+    def __init__(self, work, length):
+        self.length = length
+        self.lScreen = Toplevel()
+#        self.lScreen = Tk()
+        Label(self.lScreen, text="Working").pack()
+        self.progress = 0
+
+        self.work  = Label(self.lScreen, text=work).pack()
+        
+        self.progress_str = StringVar()
+        self.progress_str.set(str(self.progress) + ' / ' + str(self.length))
+        self.propgressLabel = Label(self.lScreen, text=self.progress_str, textvariable=self.progress_str).pack()
+
+        self.progress_var = DoubleVar()
+        self.prog_bar = ttk.Progressbar(self.lScreen, variable=self.progress_var, maximum=length)
+        self.prog_bar.pack()
+
+        self.lScreen.pack_slaves()
+
+        self.lScreen.protocol("WM_DELETE_WINDOW", self.destroyed)
+
+    def increaseProgress(self):
+        self.progress = self.progress + 1
+        if self.progress >= self.length:
+            progress = 0
+        self.progress_var.set(self.progress)
+        self.progress_str.set(str(self.progress) + ' / ' + str(self.length))
+
+    def update(self):
+        self.lScreen.update()
+
+    def destroyed(self):
+        os._exit(-5)
+        pass
+
+    def __del__(self):
+        self.lScreen.destroy()
+        del self
+
+#------------------------------------------------
+
+def main():
+    
+    app = Tk()
+    app.title("pdf2cla")
+    app.geometry("250x80")
+
+    x = xlsxProcess(app)
+
+    app.mainloop()
 
 def xlsxProcess(app):
 
@@ -49,38 +87,65 @@ def useInput(app, inputText):
 #        print(classes)
 
         if loadgAPI:
-            createGoogleEntrys(classes)
+            preGoogleEntrys(classes)
 
     else:
         messagebox.showerror("Warning", "unaple to locate file")
 
 
-def createGoogleEntrys(classes):
-    calendar = gCalendar.gCalendar()
+def preGoogleEntrys(classes):
 
-    calendarId = 'i7qulknrv641gpshdv5p4344r8@group.calendar.google.com'
-
-    for i in classes:
-        startTime = i[0] + "T" + i[1][0:2] + ":" + i[1][3:5]
-        endTime   = i[0] + "T" + i[1][6:8] + ":" + i[1][9:11]
-
-        print(startTime + " " + endTime)
-
-
-
-def main():
-    
     app = Tk()
     app.title("pdf2cla")
-    app.geometry("250x80")
 
-    x = xlsxProcess(app)
+    calendar = gCalendar.gCalendar()
+
+    calendarId = 'bjo0233a5f7clkofr5khtt8608@group.calendar.google.com'
+
+    calendarList = calendar.getCalendarList()
+
+#    chkButton = Checkbar(app, x).pack()
+    selected = IntVar()
+    for i, j in enumerate(calendarList):
+        print(j['summary'])
+        Radiobutton(app, text=j['summary'], variable=selected, value=i).grid(row=i, sticky='W')
+
+    but = Button(app, text='OK', command=lambda: createGoogleEntrys(app,calendar, calendarList[selected.get()]['id'], classes), width=20).grid()
 
     app.mainloop()
 
+def createGoogleEntrys(app,calendar, calendarId, classes):
+    app.withdraw()
+    
+    loading = LoadingScreen("Creating Entys", len(classes))
+    try:
+#    if True:
+        for i in classes:
+            startTime = i[0] + "T" + i[1][0:2] + ":" + i[1][3:5]
+            endTime   = i[0] + "T" + i[1][6:8] + ":" + i[1][9:11]
 
+            if len(i) < 4:
+                calendar.createEvent(calendarId, startTime, endTime, eventName=i[2])
+                print(calendarId + " " + startTime + " " + endTime + i[2])
+            elif len(i) > 3:
 
+                name = ""
+                for k in range(2, len(i)-1):
+                    name = name + " " + i[k]
 
+                calendar.createEvent(calendarId, startTime, endTime, eventName=name, location=i[-1])
+                print(calendarId + " " + startTime + " " + endTime + name + "\t:\t" + i[-1])
+            loading.increaseProgress()
+            loading.update()
+
+    except:
+        messagebox.showerror("Warning", "Error while creating Calendar Entrys")
+        loading.__del__()
+        os._exit(-2)
+
+    loading.__del__()
+    messagebox.showinfo("Ready!", "Ready!\n  :-) ")
+    os._exit(1)
 
 
 if __name__ == "__main__":

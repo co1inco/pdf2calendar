@@ -62,15 +62,16 @@ class gCalendar():
         return credentials
 
 
-    def createEvent(self, calendarID, dateTimeStart, dateTimeEnd):
-        # 2017-05-28T17:00:00-00:00
-        startTime   = dateTimeStart + ":00-00:00"
-        endTime     = dateTimeEnd + ":00-00:00"
+    def createEvent(self, calendarID, dateTimeStart, dateTimeEnd, location="Unknown", eventName="Unknown"):
+        # 2017-05-28T17:11:00+01:00   2017-05-28T17:11:00.000000Z
+        startTime   = dateTimeStart + ":00+01:00"
+        endTime     = dateTimeEnd + ":00+01:00"
     
         event = {
             "start": { "dateTime": startTime},
             "end" : { "dateTime": endTime},
-            "summary" : "test"
+            "summary" : name,
+            "location" : location
             }
     
         out = self.service.events().insert(calendarId=calendarID, body=event).execute()

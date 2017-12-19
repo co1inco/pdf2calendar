@@ -1,4 +1,9 @@
-import xlrd
+
+try:
+    import xlrd
+except:
+    pass
+
 import re
 import datetime
 

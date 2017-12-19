@@ -130,19 +130,9 @@ def getFileContent(filename):
 
     return classes
 
-    
-
-if __name__ == '__main__':
-    
-#    book = xlrd.open_workbook("Stundenplan_WS 2017-18_ELM 1 ilovepdf og.xlsx")
-    
-    read = readXlsx("Stundenplan_WS 2017-18_ELM 1.xlsx")
-
-    f = open('classes.txt', 'w', encoding="utf-8")
-
-    classes = read.getAllPages()
-    
-    # [:9] date | [11:32] time | [34:] name
+def writeToFile(filename, classes):
+        
+    f = open(filename, 'w', encoding="utf-8")
     for i in classes:
 
         for j in i:
@@ -154,9 +144,18 @@ if __name__ == '__main__':
                 f.write('\t')
 
         f.write("\n")
-#        print(i)
 
     f.close()
+
+    
+
+if __name__ == '__main__':
+       
+    read = readXlsx("Stundenplan_WS 2017-18_ELM 1.xlsx")
+    
+    classes = read.getAllPages()
+
+    writeToFile("classes.txt", classes)
 
     g = getFileContent("classes.txt")
     for i in g:

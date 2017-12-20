@@ -115,7 +115,7 @@ class readXlsx():
     def getAllPages(self):
 
         classes = []
-        for i in range(self.book.nsheets-1):
+        for i in range(self.book.nsheets):
             sh = self.book.sheet_by_index(i)
             page = self.getPage(sh)
             for j in page:

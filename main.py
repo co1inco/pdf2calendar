@@ -55,13 +55,29 @@ def main():
     app = Tk()
     app.title("pdf2cla")
     app.geometry("250x80")
+    app.withdraw()
+    app.resizable(False, False)
+#    messagebox.showinfo("pdf to xlsx", "Use THIS online converter to \nconvert the .pdf to .xlsx \n https://www.ilovepdf.com/pdf_to_excel")
 
-    x = xlsxProcess(app)
+    infobox = Tk()
+    infobox.title("pdf to xlsx")
+    infobox.resizable(False, False)
+
+    Label(infobox, text='Use THIS online converter to \nconvert the .pdf to .xlsx').pack()
+    T = Text(infobox, height=1, width=37, relief='flat')
+    T.insert(END, "https://www.ilovepdf.com/pdf_to_excel")
+    T.config(state=DISABLED)
+    T.pack()
+
+    Button(infobox, command=lambda: xlsxProcess(infobox, app), text="OK", width=10).pack()
 
     app.mainloop()
+    infobox.mainloop()
 
-def xlsxProcess(app):
+def xlsxProcess(infobox, app):
+    infobox.destroy()
 
+    app.deiconify()
     text = Label(text="Filename:").pack()
     inputText = Entry(app, width = 40)
     inputText.pack()
@@ -97,6 +113,7 @@ def preGoogleEntrys(classes):
 
     app = Tk()
     app.title("pdf2cla")
+    app.resizable(False, False)
 
     calendar = gCalendar.gCalendar()
 
@@ -187,5 +204,6 @@ if __name__ == "__main__":
     import xlsx2name
     if loadgAPI:
         import gCalendar
+    
     
     main()

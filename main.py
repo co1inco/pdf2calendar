@@ -74,21 +74,28 @@ def main():
     app.mainloop()
     infobox.mainloop()
 
+
 def xlsxProcess(infobox, app):
     infobox.destroy()
 
     app.deiconify()
-    text = Label(text="Filename:").pack()
+    text = Label(text="Filename: \n (emty for entrys.txt or timetable.pdf)").pack()
     inputText = Entry(app, width = 40)
     inputText.pack()
     button = Button(app, text="OK", command=lambda: useInput(app, inputText), width=10).pack()
+
 
 def useInput(app, inputText):
     input = inputText.get()
     app.destroy()
 
     if len(input) == 0:
-        input = "classes.txt" #overwrite input file 
+        if os.path.isfile("entrys.txt"):
+            input = "entrys.txt" 
+        elif os.path.isfile("timetable.pdf"):
+            input = "timetable.xlsx"
+        else:
+            input = "error"
 
     if os.path.isfile(input):
 
@@ -96,7 +103,7 @@ def useInput(app, inputText):
              print("xlsx")
              t = xlsx2name.readXlsx(input)
              classes = t.getAllPages()
-             xlsx2name.writeToFile("classes.txt", classes)
+             xlsx2name.writeToFile("entrys.txt", classes)
         else:
             print("txt")
             classes = xlsx2name.getFileContent(input)
@@ -117,7 +124,7 @@ def preGoogleEntrys(classes):
 
     calendar = gCalendar.gCalendar()
 
-    calendarId = 'bjo0233a5f7clkofr5khtt8608@group.calendar.google.com'
+#    calendarId = 'bjo0233a5f7clkofr5khtt8608@group.calendar.google.com'
 
     calendarList = calendar.getCalendarList()
 

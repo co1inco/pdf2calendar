@@ -124,7 +124,7 @@ class readXlsx():
         return classes
 
 def getFileContent(filename):
-    f = open('classes.txt', 'r', encoding="utf-8")
+    f = open(filename, 'r', encoding="utf-8")
     content = f.readlines()
     
     classes = []

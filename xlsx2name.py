@@ -130,8 +130,11 @@ def getFileContent(filename):
     classes = []
     for i in content:
         tmp = re.split(r'\t+', i.rstrip('\t'))
-        tmp = tmp[:-1]
+#        tmp = tmp[:-1]
+#        print(i)
         classes.append(tmp)
+
+    f.close()
 
     return classes
 

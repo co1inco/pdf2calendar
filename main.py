@@ -151,13 +151,20 @@ def createGoogleEntrys(app,calendar, calendarId, classes):
                 calendar.createEvent(calendarId, startTime, endTime, eventName=i[2])
                 print(calendarId + " " + startTime + " " + endTime + i[2])
             elif len(i) > 3:
+                
+                if i[-1] == "\n": # if a tab comes after the room \n is the room
+                    i = i[:-1]
 
                 name = ""
-                for k in range(2, len(i)-1):
-                    name = name + " " + i[k]
+                for k in range(3, len(i)):
+                    name = name + "  " + i[k-1]
+
+#                print(i)
+#                print(name)
 
                 calendar.createEvent(calendarId, startTime, endTime, eventName=name, location=i[-1])
                 print(calendarId + " " + startTime + " " + endTime + name + "\t:\t" + i[-1])
+
             loading.increaseProgress()
             loading.update()
 

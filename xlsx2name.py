@@ -7,6 +7,10 @@ except:
 import re
 import datetime
 
+from tkinter import *
+from tkinter import messagebox
+import os
+
 dateCol = 1
 timeRow = 0
 
@@ -15,6 +19,10 @@ monthList = ['Jan', 'Feb', 'Mar',
          'Apr', 'Mai', 'Jun',
          'Jul', 'Aug', 'Sep',
          'Okt', 'Nov', 'Dez']
+
+def errorAndExit(message):
+    messagebox.showerror("Error", message)
+    os._exit(0)
 
 class readXlsx():
     def __init__(self, filename):
@@ -46,7 +54,7 @@ class readXlsx():
     def getDay(self, page, row, timeCols, timeStr, dateCol = 1):
 
         classes = []
-
+        print(timeCols)
         for timeIndex, timeCol in enumerate(timeCols):
         
             currentCel = self.getCell(page, row, timeCol)
@@ -67,9 +75,13 @@ class readXlsx():
                 time = timeStr[timeIndex]
                 time = time.split()
                 time1 = time[0]
+
                 if len(time1) == 4:
                     time1 = "0" + time1
-                time2 = time[2]
+                try:    
+                    time2 = time[2]
+                except:
+                    errorAndExit("Incorect time\n Please check the\n first Row of each sheet")
                 if len(time2) == 3:
                     time2 = "0" + time2
                 time = str(time1) + "-" + str(time2)
@@ -108,7 +120,6 @@ class readXlsx():
 
                 for i in day:
                     classes.append(i)
-
         return classes
 
 
@@ -120,6 +131,7 @@ class readXlsx():
             page = self.getPage(sh)
             for j in page:
                 classes.append(j)
+            print("Page (%i) ready" % i)
 
         return classes
 

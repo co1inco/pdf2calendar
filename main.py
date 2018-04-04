@@ -79,7 +79,7 @@ def xlsxProcess(infobox, app):
     infobox.destroy()
 
     app.deiconify()
-    text = Label(text="Filename: \n (emty for entrys.txt or timetable.pdf)").pack()
+    text = Label(text="Filename: \n (emty for entrys.txt or timetable.xlsx)").pack()
     inputText = Entry(app, width = 40)
     inputText.pack()
     button = Button(app, text="OK", command=lambda: useInput(app, inputText), width=10).pack()

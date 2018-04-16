@@ -15,3 +15,7 @@ classes.txt
 /__pycache__
 /.~lock.Stundenplan_WS 2017-18_ELM 1.xlsx#
 /entrys.txt
+
+/build/*
+/dist/*
+/wip-files/*

@@ -6,6 +6,8 @@ import os
 
 global input
 
+timezones = ["Europe/Berlin", "Europe/Dublin"]
+
 # exitcode -5 => exit and interupting creation of entrys by closing the progress window
 
 class LoadingScreen():
@@ -127,17 +129,23 @@ def preGoogleEntrys(classes):
 #    calendarId = 'bjo0233a5f7clkofr5khtt8608@group.calendar.google.com'
 
     calendarList = calendar.getCalendarList()
+    
+    timezoneVar = StringVar()
+    timezoneVar.set(timezones[0])
+    tzMenu = OptionMenu(app, timezoneVar, *timezones)
+    tzMenu.grid(row=0)
 
+    
     selected = IntVar()
     for i, j in enumerate(calendarList):
         print(j['summary'])
-        Radiobutton(app, text=j['summary'], variable=selected, value=i).grid(row=i, sticky='W')
+        Radiobutton(app, text=j['summary'], variable=selected, value=i).grid(row=i+1, sticky='W')
 
-    but = Button(app, text='OK', command=lambda: createGoogleEntrys(app,calendar, calendarList[selected.get()]['id'], classes), width=20).grid()
+    but = Button(app, text='OK', command=lambda: createGoogleEntrys(app,calendar, calendarList[selected.get()]['id'], classes, timezoneVar.get()), width=20).grid()
 
     app.mainloop()
 
-def createGoogleEntrys(app,calendar, calendarId, classes):
+def createGoogleEntrys(app,calendar, calendarId, classes, timezone):
     app.withdraw()
     
     loading = LoadingScreen("Creating Entys", len(classes))
@@ -162,7 +170,7 @@ def createGoogleEntrys(app,calendar, calendarId, classes):
 #                print(i)
 #                print(name)
 
-                calendar.createEvent(calendarId, startTime, endTime, eventName=name, location=i[-1])
+                calendar.createEvent(calendarId, startTime, endTime, eventName=name, location=i[-1], timezone=timezone)
                 print(calendarId + " " + startTime + " " + endTime + name + "\t:\t" + i[-1])
 
             loading.increaseProgress()
@@ -187,7 +195,7 @@ if __name__ == "__main__":
         loadxrdp = True
     except ModuleNotFoundError:
         if messagebox.askokcancel("import Error", "Unbable to import xlrp\n Try and install it?:\n pip install xlrp", icon='error'):
-            os.system("pip install xlrd")
+            os.system("py -m pip install xlrd")
             try:
                 import xlrd
                 loadxrdp = True
@@ -203,7 +211,7 @@ if __name__ == "__main__":
         loadgAPI = True
     except ModuleNotFoundError:
         if messagebox.askokcancel("import Error", "Unbable to import goole-api\n Try and install it?:\n pip install google-api-python-client", icon='error'):
-            os.system("pip install google-api-python-client")
+            os.system("py -m pip install google-api-python-client")
             try:
                 import apiclient
                 loadgAPI = True

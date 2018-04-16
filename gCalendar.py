@@ -62,14 +62,15 @@ class gCalendar():
         return credentials
 
 
-    def createEvent(self, calendarID, dateTimeStart, dateTimeEnd, location="Unknown", eventName="Unknown"):
+    def createEvent(self, calendarID, dateTimeStart, dateTimeEnd, location="Unknown", eventName="Unknown", timezone="Europe/Berlin"):
         # 2017-05-28T17:11:00+01:00   2017-05-28T17:11:00.000000Z
-        startTime   = dateTimeStart + ":00+01:00"
-        endTime     = dateTimeEnd + ":00+01:00"
+        startTime   = dateTimeStart + ":00" #+02:00"
+        endTime     = dateTimeEnd + ":00" #+02:00"
+        print(startTime)
     
         event = {
-            "start": { "dateTime": startTime},
-            "end" : { "dateTime": endTime},
+            "start": { "dateTime": startTime, "timeZone": timezone},
+            "end" : { "dateTime": endTime, "timeZone": timezone},
             "summary" : eventName,
             "location" : location
             }
@@ -81,6 +82,21 @@ class gCalendar():
         calendars = self.service.calendarList().list().execute()
         calendarList = calendars['items']
         return calendarList
+
+    def getEventList(self, calendarId):
+        retEvents = [] 
+        page_token = None
+        while True:
+            events = self.service.events().list(calendarId=calendarId, pageToken=page_token).execute()
+            for event in events['items']:
+                retEvents.append(event)    
+            page_token = events.get('nextPageToken')
+            if not page_token:
+                break
+        return retEvents
+
+    def delEvent(self, calendarId, eventId):
+        self.service.events().delete(calendarId=calendarId, eventId=eventId).execute()
         
 
 if __name__ == '__main__':

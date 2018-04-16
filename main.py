@@ -88,27 +88,27 @@ def xlsxProcess(infobox, app):
 
 
 def useInput(app, inputText):
-    input = inputText.get()
+    inputVar = inputText.get()
     app.destroy()
 
-    if len(input) == 0:
+    if len(inputVar) == 0:
         if os.path.isfile("entrys.txt"):
-            input = "entrys.txt" 
-        elif os.path.isfile("timetable.pdf"):
-            input = "timetable.xlsx"
+            inputVar = "entrys.txt" 
+        elif os.path.isfile("timetable.xlsx"):
+            inputVar = "timetable.xlsx"
         else:
-            input = "error"
+            inputVar = "error"
 
     if os.path.isfile(input):
 
-        if input.endswith(".xlsx") or input.endswith(".xls"):
+        if inputVar.endswith(".xlsx") or inputVar.endswith(".xls"):
              print("xlsx")
              t = xlsx2name.readXlsx(input)
              classes = t.getAllPages()
              xlsx2name.writeToFile("entrys.txt", classes)
         else:
             print("txt")
-            classes = xlsx2name.getFileContent(input)
+            classes = xlsx2name.getFileContent(inputVar)
 
         if loadgAPI:
             preGoogleEntrys(classes)

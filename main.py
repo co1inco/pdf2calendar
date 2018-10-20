@@ -66,21 +66,15 @@ def main():
     T.config(state=DISABLED)
     T.grid(row=1)
 
-    Button(app, command=lambda: xlsxProcess(app), text="OK", width=10).grid(row=2)
+    Button(app, command=lambda: useInput(app), text="OK", width=10).grid(row=2)
 
     app.mainloop()
     infobox.mainloop()
 
 
-def xlsxProcess(app):
-    filename = filedialog.askopenfilename(initialdir = os.getcwd, title = "Select file", filetypes = (("Excel or Text file", "*.xls *.xlsx *.txt"), ("all files","*.*")))
-    useInput(app, filename)
-
-
-
-def useInput(app, inputText):
-
-
+def useInput(app):
+    
+    inputText = filedialog.askopenfilename(initialdir = os.getcwd, title = "Select file", filetypes = (("Excel or Text file", "*.xls *.xlsx *.txt"), ("all files","*.*")))
     print(inputText)
     
     if os.path.isfile(inputText):

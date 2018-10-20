@@ -112,7 +112,9 @@ def useInput(app, inputText):
              print("xlsx")
              t = xlsx2name.readXlsx(inputText)
              classes = t.getAllPages()
-             xlsx2name.writeToFile("entrys.txt", classes)
+             txtName = inputText+".txt"
+             xlsx2name.writeToFile(txtName, classes)
+             print("Entrys saved as: " + txtName)
         else:
             print("txt")
             classes = xlsx2name.getFileContent(inputText)

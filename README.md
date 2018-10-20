@@ -4,8 +4,17 @@ used pdf to xlsx converter: https://www.ilovepdf.com/pdf_to_excel
 
 required lib for xlsx2name:\
 	-xlrd\
-	"pytonh -m pip install xlrd"
+	"py -3.6 -m pip install xlrd"
 
 required lib for gCalendar:\
 	-googleapi\
-	"python -m pip install google-api-python-client"
+	"py -3.6 -m pip install google-api-python-client"
+	
+	
+To create the exe:\
+	-required lib cx_freeze\
+	"py -3.6 -m pip install cx_freeze\
+
+To packe the exe files into a single Executable:\
+	NSIS 3
+	

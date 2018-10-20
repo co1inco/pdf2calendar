@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
+from tkinter import filedialog
 
 import os
 
@@ -80,17 +81,20 @@ def main():
 def xlsxProcess(infobox, app):
     infobox.destroy()
 
-    app.deiconify()
-    text = Label(text="Filename: \n (emty for entrys.txt or timetable.xlsx)").pack()
-    inputText = Entry(app, width = 40)
-    inputText.pack()
-    button = Button(app, text="OK", command=lambda: useInput(app, inputText), width=10).pack()
+#    app.deiconify()
+#    text = Label(text="Filename: \n (emty for entrys.txt or timetable.xlsx)").pack()
+#    inputText = Entry(app, width = 40)
+#    inputText.pack()
+#    button = Button(app, text="OK", command=lambda: useInput(app, inputText), width=10).pack()
+    filename = filedialog.askopenfilename(initialdir = os.getcwd, title = "Select file", filetypes = (("Excel or Text file", "*.xls *.xlsx *.txt"), ("all files","*.*")))
+    useInput(app, filename)
+
 
 
 def useInput(app, inputText):
-    inputVar = inputText.get()
-    app.destroy()
-
+#    inputVar = inputText.get()
+#    app.destroy()
+    """
     if len(inputVar) == 0:
         if os.path.isfile("entrys.txt"):
             inputVar = "entrys.txt" 
@@ -98,31 +102,36 @@ def useInput(app, inputText):
             inputVar = "timetable.xlsx"
         else:
             inputVar = "error"
+    """
 
-    if os.path.isfile(input):
+    print(inputText)
+    
+    if os.path.isfile(inputText):
 
-        if inputVar.endswith(".xlsx") or inputVar.endswith(".xls"):
+        if inputText.endswith(".xlsx") or inputText.endswith(".xls"):
              print("xlsx")
-             t = xlsx2name.readXlsx(input)
+             t = xlsx2name.readXlsx(inputText)
              classes = t.getAllPages()
              xlsx2name.writeToFile("entrys.txt", classes)
         else:
             print("txt")
-            classes = xlsx2name.getFileContent(inputVar)
+            classes = xlsx2name.getFileContent(inputText)
 
         if loadgAPI:
-            preGoogleEntrys(classes)
+            preGoogleEntrys(classes, app)
 
     else:
         messagebox.showerror("Warning", "unaple to locate file")
         os._exit(-3)
 
 
-def preGoogleEntrys(classes):
+def preGoogleEntrys(classes, app):
 
-    app = Tk()
-    app.title("pdf2cla")
-    app.resizable(False, False)
+#    app = Tk()
+    app.deiconify()
+    app.title("pdf2cal")
+    app.resizable(False, True)
+    app.geometry("200x300")
 
     calendar = gCalendar.gCalendar()
 
@@ -133,10 +142,12 @@ def preGoogleEntrys(classes):
     timezoneVar = StringVar()
     timezoneVar.set(timezones[0])
     tzMenu = OptionMenu(app, timezoneVar, *timezones)
+    tzMenu.config(width=len(timezoneVar.get()))
     tzMenu.grid(row=0)
 
     
     selected = IntVar()
+    selected.set(1)
     for i, j in enumerate(calendarList):
         print(j['summary'])
         Radiobutton(app, text=j['summary'], variable=selected, value=i).grid(row=i+1, sticky='W')

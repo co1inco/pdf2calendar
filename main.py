@@ -78,24 +78,27 @@ def useInput(app):
     print(inputText)
     
     if os.path.isfile(inputText):
-
-        if inputText.endswith(".xlsx") or inputText.endswith(".xls"):
-             print("xlsx")
-             t = xlsx2name.readXlsx(inputText)
-             classes = t.getAllPages()
-             txtName = inputText+".txt"
-             xlsx2name.writeToFile(txtName, classes)
-             print("Entrys saved as: " + txtName)
-        else:
-            print("txt")
-            classes = xlsx2name.getFileContent(inputText)
+        try:
+            if inputText.endswith(".xlsx") or inputText.endswith(".xls"):
+                print("xlsx")
+                t = xlsx2name.readXlsx(inputText)
+                classes = t.getAllPages()
+                txtName = inputText+".txt"
+                xlsx2name.writeToFile(txtName, classes)
+                print("Entrys saved as: " + txtName)
+            else:
+                print("txt")
+                classes = xlsx2name.getFileContent(inputText)
+        except Exception as e:
+            messagebox.showerror("Warning", e)
+            os._exit(4)
 
         if loadgAPI:
             preGoogleEntrys(classes, app)
 
     else:
         messagebox.showerror("Warning", "unaple to locate file")
-        os._exit(-3)
+        os._exit(3)
 
 
 def preGoogleEntrys(classes, app):
@@ -125,7 +128,7 @@ def preGoogleEntrys(classes, app):
         print(j['summary'])
         Radiobutton(app, text=j['summary'], variable=selected, value=i).grid(row=i+2+rowOffset, sticky='W')
 
-    but = Button(app, text='OK', command=lambda: createGoogleEntrys(app,calendar, calendarList[selected.get()]['id'], classes, timezoneVar.get()), width=20).grid()
+    but = Button(app, text='OK', command=lambda: createGoogleEntrys(app,calendar, calendarList[selected.get()]['id'], classes, timezoneVar.get()), width=20).grid(row=i+3+rowOffset)
 
     app.mainloop()
 

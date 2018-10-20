@@ -25,3 +25,4 @@ classes.txt
 *.db
 exe/main.exe
 exe/__pycache__/setup.cpython-36.pyc
+exe/pdf2calendar.exe

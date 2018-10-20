@@ -13,7 +13,7 @@ required lib for gCalendar:\
 	
 To create the exe:\
 	-required lib cx_freeze\
-	"py -3.6 -m pip install cx_freeze\
+	"py -3.6 -m pip install cx_freeze
 
 To packe the exe files into a single Executable:\
 	NSIS 3

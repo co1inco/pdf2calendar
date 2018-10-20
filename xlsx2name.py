@@ -43,18 +43,30 @@ class readXlsx():
 
         for i in range(1, page.ncols):
         
-            currentCel = self.getCell(page, timeRow, i)
-            if currentCel.find('empty') == -1:
+            currentCell = self.getCell(page, timeRow, i)
+#            print(str(len(currentCell)) + " " + currentCell)
+            
+            if currentCell.find('empty') != -1:
+                pass
+            elif currentCell.find('number') != -1:
+                time = currentCell[7:] + "0 - " + str(float(currentCell[7:])+1.30) + "0 Uhr"
+                
+                print("Time: " + time + " -Repaired-")
                 timeCols.append(i)
-                times.append(currentCel)
-
+                times.append(time)
+            elif 16 <= len(currentCell) <= 17:
+                print("Time: " + currentCell)
+                timeCols.append(i)
+                times.append(currentCell)
+                
+        print(str(timeCols))
         return timeCols, times
 
 
     def getDay(self, page, row, timeCols, timeStr, dateCol = 1):
 
         classes = []
-        print(timeCols)
+#        print(timeCols)#----
         for timeIndex, timeCol in enumerate(timeCols):
         
             currentCel = self.getCell(page, row, timeCol)
@@ -171,7 +183,7 @@ def writeToFile(filename, classes):
 
 if __name__ == '__main__':
        
-    read = readXlsx("Stundenplan_WS 2017-18_ELM 1.xlsx")
+    read = readXlsx("Stundenplan_WS 2018-19_ELM_3.xlsx")
     
     classes = read.getAllPages()
 

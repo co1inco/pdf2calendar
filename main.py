@@ -5,17 +5,16 @@ from tkinter import filedialog
 
 import os
 
-global input
+#global input
 
 timezones = ["Europe/Berlin", "Europe/Dublin"]
 
-# exitcode -5 => exit and interupting creation of entrys by closing the progress window
+# exitcode 5 => exit and interupting creation of entrys by closing the progress window
 
 class LoadingScreen():
     def __init__(self, work, length):
         self.length = length
         self.lScreen = Toplevel()
-#        self.lScreen = Tk()
         Label(self.lScreen, text="Working").pack()
         self.progress = 0
 
@@ -44,7 +43,7 @@ class LoadingScreen():
         self.lScreen.update()
 
     def destroyed(self):
-        os._exit(-5)
+        os._exit(5)
         pass
 
     def __del__(self):
@@ -57,52 +56,30 @@ def main():
     
     app = Tk()
     app.title("pdf2cla")
-    app.geometry("250x80")
-    app.withdraw()
     app.resizable(False, False)
-#    messagebox.showinfo("pdf to xlsx", "Use THIS online converter to \nconvert the .pdf to .xlsx \n https://www.ilovepdf.com/pdf_to_excel")
 
-    infobox = Tk()
-    infobox.title("pdf to xlsx")
-    infobox.resizable(False, False)
+    app.protocol("WM_DELETE_WINDOW", on_closing)
 
-    Label(infobox, text='Use THIS online converter to \nconvert the .pdf to .xlsx').pack()
-    T = Text(infobox, height=1, width=37, relief='flat')
+    Label(app, text='Use THIS online converter to \nconvert the .pdf to .xlsx').grid(row=0)
+    T = Text(app, height=1, width=37, relief='flat')
     T.insert(END, "https://www.ilovepdf.com/pdf_to_excel")
     T.config(state=DISABLED)
-    T.pack()
+    T.grid(row=1)
 
-    Button(infobox, command=lambda: xlsxProcess(infobox, app), text="OK", width=10).pack()
+    Button(app, command=lambda: xlsxProcess(app), text="OK", width=10).grid(row=2)
 
     app.mainloop()
     infobox.mainloop()
 
 
-def xlsxProcess(infobox, app):
-    infobox.destroy()
-
-#    app.deiconify()
-#    text = Label(text="Filename: \n (emty for entrys.txt or timetable.xlsx)").pack()
-#    inputText = Entry(app, width = 40)
-#    inputText.pack()
-#    button = Button(app, text="OK", command=lambda: useInput(app, inputText), width=10).pack()
+def xlsxProcess(app):
     filename = filedialog.askopenfilename(initialdir = os.getcwd, title = "Select file", filetypes = (("Excel or Text file", "*.xls *.xlsx *.txt"), ("all files","*.*")))
     useInput(app, filename)
 
 
 
 def useInput(app, inputText):
-#    inputVar = inputText.get()
-#    app.destroy()
-    """
-    if len(inputVar) == 0:
-        if os.path.isfile("entrys.txt"):
-            inputVar = "entrys.txt" 
-        elif os.path.isfile("timetable.xlsx"):
-            inputVar = "timetable.xlsx"
-        else:
-            inputVar = "error"
-    """
+
 
     print(inputText)
     
@@ -129,30 +106,30 @@ def useInput(app, inputText):
 
 def preGoogleEntrys(classes, app):
 
-#    app = Tk()
-    app.deiconify()
     app.title("pdf2cal")
     app.resizable(False, True)
-    app.geometry("200x300")
+    rowOffset = 4
 
     calendar = gCalendar.gCalendar()
 
 #    calendarId = 'bjo0233a5f7clkofr5khtt8608@group.calendar.google.com'
 
     calendarList = calendar.getCalendarList()
+
+    Label(app, text="------------------------").grid(row=rowOffset)
     
     timezoneVar = StringVar()
     timezoneVar.set(timezones[0])
     tzMenu = OptionMenu(app, timezoneVar, *timezones)
     tzMenu.config(width=len(timezoneVar.get()))
-    tzMenu.grid(row=0)
+    tzMenu.grid(row=rowOffset+1)
 
     
     selected = IntVar()
     selected.set(1)
     for i, j in enumerate(calendarList):
         print(j['summary'])
-        Radiobutton(app, text=j['summary'], variable=selected, value=i).grid(row=i+1, sticky='W')
+        Radiobutton(app, text=j['summary'], variable=selected, value=i).grid(row=i+2+rowOffset, sticky='W')
 
     but = Button(app, text='OK', command=lambda: createGoogleEntrys(app,calendar, calendarList[selected.get()]['id'], classes, timezoneVar.get()), width=20).grid()
 
@@ -196,6 +173,10 @@ def createGoogleEntrys(app,calendar, calendarId, classes, timezone):
 
     loading.__del__()
     messagebox.showinfo("Ready!", "Ready!\n  :-) ")
+    os._exit(1)
+
+
+def on_closing():
     os._exit(1)
 
 

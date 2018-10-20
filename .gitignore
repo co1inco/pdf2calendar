@@ -19,6 +19,7 @@ classes.txt
 /build/*
 /dist/*
 /wip-files/*
+/exe/build/*
 *.spec
 *.dll
 *.db

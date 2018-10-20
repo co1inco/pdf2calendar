@@ -125,6 +125,9 @@ class readXlsx():
         timeCols, timeStr = self.getTime(page)
         classes = []
 
+        if page.ncols < 5:
+            return classes
+
         for i in range(page.nrows):
             currentCell = self.getCell(page, i, dateCol)
             if currentCell.find('empty') == -1:
@@ -183,7 +186,7 @@ def writeToFile(filename, classes):
 
 if __name__ == '__main__':
        
-    read = readXlsx("Stundenplan_WS 2018-19_ELM_3.xlsx")
+    read = readXlsx("Stundenplan_WS 2018-19_ELM_1.xlsx")
     
     classes = read.getAllPages()
 

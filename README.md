@@ -7,5 +7,5 @@ required lib for xlsx2name:\
 	"pytonh -m pip install xlrd"
 
 required lib fo gCalendar:\
-	-googleapi\	
- 	"python -m pip install google-api-python-client"
+	-googleapi\
+	"python -m pip install google-api-python-client"

@@ -42,7 +42,8 @@ class readXlsx():
         times    = []   
 
         for i in range(1, page.ncols):
-        
+
+            
             currentCell = self.getCell(page, timeRow, i)
 #            print(str(len(currentCell)) + " " + currentCell)
             
@@ -51,14 +52,14 @@ class readXlsx():
             elif currentCell.find('number') != -1:
                 time = currentCell[7:] + "0 - " + str(float(currentCell[7:])+1.30) + "0 Uhr"
                 
-                print("Time: " + time + " -Repaired-")
+                print(("Time: " + time + " -Repaired-").encode("utf-8"))
                 timeCols.append(i)
                 times.append(time)
             elif 16 <= len(currentCell) <= 17:
-                print("Time: " + currentCell)
+                print(("Time: " + currentCell).encode("utf-8"))
                 timeCols.append(i)
                 times.append(currentCell)
-                
+        
         print(str(timeCols))
         return timeCols, times
 
@@ -123,6 +124,7 @@ class readXlsx():
     def getPage(self, page, dateCol = 1):
 
         timeCols, timeStr = self.getTime(page)
+        
         classes = []
 
         if page.ncols < 5:
@@ -143,10 +145,13 @@ class readXlsx():
         classes = []
         for i in range(self.book.nsheets):
             sh = self.book.sheet_by_index(i)
+
             page = self.getPage(sh)
+            
             for j in page:
                 classes.append(j)
             print("Page (%i) ready" % i)
+            
 
         return classes
 

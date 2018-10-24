@@ -18,3 +18,7 @@ To create the exe:\
 To packe the exe files into a single Executable:\
 	NSIS 3
 	
+ADD Info for:\
+idna
+oauth2client
+Pysocks

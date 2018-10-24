@@ -3,11 +3,16 @@
 from __future__ import print_function
 import httplib2
 import os
+from tkinter import messagebox
 
-from apiclient import discovery
-from oauth2client import client
-from oauth2client import tools
-from oauth2client.file import Storage
+try:
+    from apiclient import discovery
+    from oauth2client import client
+    from oauth2client import tools
+    from oauth2client.file import Storage
+except Exception as e:
+    messagebox.showerror("Error", e)
+    os._exit(7)
 
 import datetime
 
@@ -52,7 +57,11 @@ class gCalendar():
         store = Storage(credential_path)
         credentials = store.get()
         if not credentials or credentials.invalid:
-            flow = client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
+            try:
+                flow = client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
+            except Exception as e:
+                messagebox.showerror("File Error", e)
+                os._exit(8)
             flow.user_agent = APPLICATION_NAME
             if flags:
                 credentials = tools.run_flow(flow, store, flags)

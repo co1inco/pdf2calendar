@@ -5,7 +5,7 @@ used pdf to xlsx converter: https://www.ilovepdf.com/pdf_to_excel
 required libs for excel2txt conversion:\
 	-xlrd
 
-required libs for google calendar:
+required libs for google calendar:\
 -googleapi\
 -idna\
 -oauth2client\
